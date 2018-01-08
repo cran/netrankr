@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Probabilistic Centrality</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Probabilistic Centrality</h1>
+
+
+
+<p>This vignette describes methods to analyse all possible centrality rankings of a network at once. To do so, a partial rankings as computed from <a href="neighborhood_inclusion.html">neighborhood-inclusion</a> or, more general, <a href="positional_dominance.html">positional dominance</a> is needed. In this vignette we focus on neighborhood-inclusion but note that all considered methods are readily applicable for positional dominance. For more examples consult the tutorial.</p>
+<hr />
+<div id="theoretical-background" class="section level2">
+<h2>Theoretical Background</h2>
+<p>Neighborhood-inclusion or induces a partial ranking on the vertices of a graph <span class="math inline">\(G=(V,E)\)</span>. We write <span class="math inline">\(u\leq v\)</span> if <span class="math inline">\(N(u)\subseteq N[v]\)</span> holds for two vertices <span class="math inline">\(u,v \in V\)</span>. From the fact that <span class="math display">\[
+u\leq v \implies c(u) \leq c(v)
+\]</span> holds for any centrality index <span class="math inline">\(c:V\to \mathbb{R}\)</span>, we can characterize the set of all <em>possible</em> centrality based node rankings. Namely as the set of rankings that extend the partial ranking “<span class="math inline">\(\leq\)</span>” to a (complete) ranking.<br />
+<br />
+A node ranking can be defined as a mapping <span class="math display">\[rk: V \to \{1,\ldots,n\},\]</span> where we use the convention that <span class="math inline">\(u\)</span> is the top ranked node if <span class="math inline">\(rk(u)=n\)</span> and the bottom ranked one if <span class="math inline">\(rk(u)=1\)</span>. The set of all possible rankings can then be characterized as <span class="math display">\[
+\mathcal{R}(\leq)=\{rk:V \to \{1,\ldots,n\}\; : \; u\leq v \implies rk(u)\leq rk(v)\}.
+\]</span> This set contains <strong>all</strong> rankings that could be obtained with a centrality index.<br />
+<br />
+Once <span class="math inline">\(\mathcal{R}(\leq)\)</span> is calculated, it can be used for a probabilistic assessment of centrality, analyzing all possible rankings at once. Examples include <em>relative rank probabilities</em> (How likely is it, that a node <span class="math inline">\(u\)</span> is more central than another node <span class="math inline">\(v\)</span>?) or <em>expected ranks</em> (How central do we expect a node <span class="math inline">\(u\)</span> to be).<br />
+<br />
+It most be noted though, that deriving the set <span class="math inline">\(\mathcal{R}(\leq)\)</span> quickly becomes infeasible for larger networks, and one has to resort to approximation methods. These and more theoretical details can be found in</p>
+<blockquote>
+<p>Schoch, David. (2018). Centrality without Indices: Partial rankings and rank Probabilities in networks. <em>Social Networks</em>, <strong>54</strong>, 50-60.(<a href="https://doi.org/10.1016/j.socnet.2017.12.003">link</a>)</p>
+</blockquote>
+<hr />
+</div>
+<div id="exact-probabilities-in-the-netrankr-package" class="section level2">
+<h2>Exact Probabilities in the <code>netrankr</code> Package</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(netrankr)
+<span class="kw">library</span>(igraph)
+<span class="kw">library</span>(magrittr)</code></pre></div>
+<p>Before calculating any probabilities consider the following example graph and the rankings induced by various centrality indices, shown as rank intervals (consult <a href="partial_centrality.html">this</a> vignette for details).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g &lt;-<span class="st"> </span><span class="kw">graph.empty</span>(<span class="dt">n=</span><span class="dv">11</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>)
+g &lt;-<span class="st"> </span><span class="kw">add_edges</span>(g,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">8</span>,
+                   <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">11</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>))
+<span class="kw">V</span>(g)<span class="op">$</span>name &lt;-<span class="st"> </span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">11</span>]
+
+<span class="co">#neighborhood inclusion </span>
+P &lt;-<span class="st"> </span>g <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">neighborhood_inclusion</span>()
+
+<span class="co">#without %&gt;% operator:</span>
+<span class="co"># P &lt;- neighborhood_inclusion(g)</span>
+
+cent_scores &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+   <span class="dt">degree=</span><span class="kw">degree</span>(g),
+   <span class="dt">betweenness=</span><span class="kw">round</span>(<span class="kw">betweenness</span>(g),<span class="dv">4</span>),
+   <span class="dt">closeness=</span><span class="kw">round</span>(<span class="kw">closeness</span>(g),<span class="dv">4</span>),
+   <span class="dt">eigenvector=</span><span class="kw">round</span>(<span class="kw">eigen_centrality</span>(g)<span class="op">$</span>vector,<span class="dv">4</span>),
+   <span class="dt">subgraph=</span><span class="kw">round</span>(<span class="kw">subgraph_centrality</span>(g),<span class="dv">4</span>))
+
+<span class="kw">plot_rank_intervals</span>(P,<span class="dt">cent.df =</span> cent_scores)</code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p>Notice how all five centrality rank a different vertex as the most central one.<br />
+<br />
+In the following subsections the output of the function <code>exact_rank_probabilities()</code> are described which may help to circumvent the potential arbitrariness of index induced rankings. But first, let us briefly look at all the return values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res &lt;-<span class="st"> </span><span class="kw">exact_rank_prob</span>(P)
+<span class="kw">str</span>(res)</code></pre></div>
+<pre><code>## List of 7
+##  $ lin.ext      : num 739200
+##  $ names        : chr [1:11] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##  $ mse          : int [1:11] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ rank.prob    : num [1:11, 1:11] 0.545 0.273 0 0 0 ...
+##  $ relative.rank: num [1:11, 1:11] 0 0.3333 0 0.0476 0 ...
+##  $ expected.rank: num [1:11] 1.71 3 4.29 7.5 8.14 ...
+##  $ rank.spread  : num [1:11] 0.958 1.897 1.725 2.54 2.16 ...</code></pre>
+<p>The return value <code>lin.ext</code> gives the number of possible rankings that are in accordance with the partial ranking <code>P</code>. The <code>names</code> vector returns the names of nodes if they were supplied with the <code>names</code> parameter. Otherwise, node ids are returned as a character vector. The vector <code>mse</code> returns the equivalence classes of <code>P</code>. Nodes <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are equivalent if <span class="math inline">\(N(u)\subseteq N[v]\)</span> and <span class="math inline">\(N(v)\subseteq N[u]\)</span> holds. The remaining return values are discussed in the following.</p>
+<div id="rank-probabilities" class="section level3">
+<h3>Rank Probabilities</h3>
+<p>Instead of insisting on fixed ranks of nodes as given by indices, we can use <em>rank probabilities</em> to assess the likelihood of certain rank. Formally, rank probabilities are simply defined as <span class="math display">\[
+P(rk(u)=k)=\frac{\lvert \{rk \in  \mathcal{R}(\leq) \; : \; rk(u)=k\} \rvert}{\lvert \mathcal{R}(\leq) \rvert}.
+\]</span> Rank probabilities are given by the return value <code>rank.prob</code> of the <code>exact_rank_prob()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rp &lt;-<span class="st"> </span><span class="kw">round</span>(res<span class="op">$</span>rank.prob,<span class="dv">2</span>)
+rp</code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11]
+##  [1,] 0.55 0.27 0.12 0.05 0.01 0.00 0.00 0.00 0.00  0.00  0.00
+##  [2,] 0.27 0.22 0.17 0.13 0.09 0.06 0.04 0.02 0.01  0.00  0.00
+##  [3,] 0.00 0.16 0.22 0.21 0.17 0.12 0.07 0.04 0.01  0.00  0.00
+##  [4,] 0.00 0.03 0.05 0.07 0.09 0.11 0.12 0.13 0.13  0.14  0.14
+##  [5,] 0.00 0.00 0.02 0.05 0.08 0.10 0.13 0.15 0.16  0.16  0.16
+##  [6,] 0.00 0.05 0.08 0.10 0.11 0.11 0.11 0.11 0.11  0.11  0.11
+##  [7,] 0.00 0.05 0.08 0.10 0.11 0.11 0.11 0.11 0.11  0.11  0.11
+##  [8,] 0.00 0.03 0.05 0.07 0.09 0.11 0.12 0.13 0.13  0.14  0.14
+##  [9,] 0.09 0.09 0.09 0.09 0.09 0.09 0.09 0.09 0.09  0.09  0.09
+## [10,] 0.09 0.09 0.09 0.09 0.09 0.09 0.09 0.09 0.09  0.09  0.09
+## [11,] 0.00 0.00 0.02 0.05 0.08 0.10 0.13 0.15 0.16  0.16  0.16</code></pre>
+<p>Entries <code>rp[u,k]</code> correspond to <span class="math inline">\(P(rk(u)=k)\)</span>.<br />
+<br />
+The most interesting probabilities are certainly <span class="math inline">\(P(rk(u)=n)\)</span>, that is how likely is it for a node to be the most central.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rp[,<span class="dv">11</span>]</code></pre></div>
+<pre><code>##  [1] 0.00 0.00 0.00 0.14 0.16 0.11 0.11 0.14 0.09 0.09 0.16</code></pre>
+<p>Recall from the previous section that we found five indices that ranked <span class="math inline">\(6,7,8,10\)</span> and <span class="math inline">\(11\)</span> on top. The probability tell us now, how likely it is to find an index that rank these nodes on top. In this case, node <span class="math inline">\(11\)</span> has the highest probability to be the most central node.</p>
+</div>
+<div id="relative-rank-probabilities" class="section level3">
+<h3>Relative Rank Probabilities</h3>
+<p>In some cases, we might not necessarily be interested in a complete ranking of nodes, but only in the relative position of a subset of nodes. This idea leads to <em>relative rank probabilities</em>, that is formally defined as <span class="math display">\[
+P(rk(u)\leq rk(v))=\frac{\lvert \{rk \in  \mathcal{R}(\leq) \; : \; rk(u)\leq rk(v)\} \rvert}{\lvert \mathcal{R}(\leq) \rvert}.
+\]</span> Relative rank probabilities are given by the return value <code>relative.rank</code> of the <code>exact_rank_prob()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rrp &lt;-<span class="st"> </span><span class="kw">round</span>(res<span class="op">$</span>relative.rank,<span class="dv">2</span>)
+rrp</code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11]
+##  [1,] 0.00 0.67 1.00 0.95 1.00 1.00 1.00 0.95 0.86  0.86  1.00
+##  [2,] 0.33 0.00 0.67 1.00 0.92 0.83 0.83 1.00 0.75  0.75  0.92
+##  [3,] 0.00 0.33 0.00 0.80 1.00 0.75 0.75 0.80 0.64  0.64  1.00
+##  [4,] 0.05 0.00 0.20 0.00 0.56 0.44 0.44 0.50 0.38  0.38  0.56
+##  [5,] 0.00 0.08 0.00 0.44 0.00 0.38 0.38 0.44 0.32  0.32  0.50
+##  [6,] 0.00 0.17 0.25 0.56 0.62 0.00 0.50 0.56 0.43  0.43  0.62
+##  [7,] 0.00 0.17 0.25 0.56 0.62 0.50 0.00 0.56 0.43  0.43  0.62
+##  [8,] 0.05 0.00 0.20 0.50 0.56 0.44 0.44 0.00 0.38  0.38  0.56
+##  [9,] 0.14 0.25 0.36 0.62 0.68 0.57 0.57 0.62 0.00  0.50  0.68
+## [10,] 0.14 0.25 0.36 0.62 0.68 0.57 0.57 0.62 0.50  0.00  0.68
+## [11,] 0.00 0.08 0.00 0.44 0.50 0.37 0.37 0.44 0.32  0.32  0.00</code></pre>
+<p>Entries <code>rrp[u,v]</code> correspond to <span class="math inline">\(P(rk(u)\leq rk(v))\)</span>.<br />
+<br />
+The more a value <code>rrp[u,v]</code> deviates from <span class="math inline">\(0.5\)</span> towards <span class="math inline">\(1\)</span>, the more confidence we gain that a node <span class="math inline">\(v\)</span> is more central than a node <span class="math inline">\(u\)</span>.</p>
+</div>
+<div id="expected-ranks" class="section level3">
+<h3>Expected Ranks</h3>
+<p>The <em>expected rank</em> of a node in centrality rankings is defined as the expected value of the rank probability distribution. That is, <span class="math display">\[
+\rho(u)=\sum_{k=1}^n k\cdot P(rk(u)=k).
+\]</span> Expected ranks are given by the return value <code>expected.rank</code> of the <code>exact_rank_prob()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex_rk &lt;-<span class="st"> </span><span class="kw">round</span>(res<span class="op">$</span>expected.rank,<span class="dv">2</span>)
+ex_rk</code></pre></div>
+<pre><code>##  [1] 1.71 3.00 4.29 7.50 8.14 6.86 6.86 7.50 6.00 6.00 8.14</code></pre>
+<p>As a reminder, the higher the numeric rank, the more central a node is. In this case, node <span class="math inline">\(11\)</span> has the highest expected rank in any centrality ranking.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

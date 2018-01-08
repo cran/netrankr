@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Neighborhood-inclusion in networks</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Neighborhood-inclusion in networks</h1>
+
+
+
+<p>This vignette describes the concept of neighborhood-inclusion, its connection with network centrality and gives some example use cases with the <code>netrankr</code> package. The partial ranking induced by neighborhood-inclusion can be used to assess <a href="partial_centrality.html">partial centrality</a> or compute <a href="probabilistic_cent.html">probabilistic centrality</a>.</p>
+<hr />
+<div id="theoretical-background" class="section level2">
+<h2>Theoretical Background</h2>
+<p>In an undirected graph <span class="math inline">\(G=(V,E)\)</span>, the <em>neighborhood</em> of a node <span class="math inline">\(u \in V\)</span> is defined as <span class="math display">\[N(u)=\lbrace w : \lbrace u,w \rbrace \in E \rbrace\]</span> and its <em>closed neighborhood</em> as <span class="math inline">\(N[v]=N(v) \cup \lbrace v \rbrace\)</span>. If the neighborhood of a node <span class="math inline">\(u\)</span> is a subset of the closed neighborhood of a node <span class="math inline">\(v\)</span>, <span class="math inline">\(N(u)\subseteq N[v]\)</span>, we speak of <em>neighborhood inclusion</em>. This concept defines a dominance relation among nodes in a network. We say that <span class="math inline">\(u\)</span> is <em>dominated</em> by <span class="math inline">\(v\)</span> if <span class="math inline">\(N(u)\subseteq N[v]\)</span>. Neighborhood-inclusion induces a partial ranking on the vertices of a network. That is, (usually) some (if not most!) pairs of vertices are incomparable, such that neither <span class="math inline">\(N(u)\subseteq N[v]\)</span> nor <span class="math inline">\(N(v)\subseteq N[u]\)</span> holds. There is, however, a special graph class where all pairs are comparable (found in <a href="threshold_graph.html">this</a> vignette).</p>
+<p>The importance of neighborhood-inclusion is given by the following result:</p>
+<p><span class="math display">\[
+N(u)\subseteq N[v] \implies c(u)\leq c(v),
+\]</span> where <span class="math inline">\(c\)</span> is a centrality index defined on special path algebras. These include many of the well known measures like closeness (and variants), betweenness (and variants) as well as many walk-based indices (eigenvector and subgraph centrality, total communicability,…).</p>
+<p>Very informally, if <span class="math inline">\(u\)</span> is dominated by <span class="math inline">\(v\)</span>, then u is less central than <span class="math inline">\(v\)</span> no matter which centrality index is used, that fulfill the requirement. While this is the key result, this short description leaves out many theoretical considerations. These and more can be found in</p>
+<blockquote>
+<p>Schoch, David &amp; Brandes, Ulrik. (2016). Re-conceptualizing centrality in social networks. <em>European Journal of Appplied Mathematics</em>, <strong>27</strong>(6), 971–985. (<a href="https://doi.org/10.1017/S0956792516000401">link</a>)</p>
+</blockquote>
+<hr />
+</div>
+<div id="neighborhood-inclusion-in-the-netrankr-package" class="section level2">
+<h2>Neighborhood-inclusion in the <code>netrankr</code> Package</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(netrankr)
+<span class="kw">library</span>(igraph)
+<span class="kw">set.seed</span>(<span class="dv">1886</span>) <span class="co">#for reproducibility</span></code></pre></div>
+<p>We work with the following simple graph.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g &lt;-<span class="st"> </span><span class="kw">graph.empty</span>(<span class="dt">n=</span><span class="dv">11</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>)
+g &lt;-<span class="st"> </span><span class="kw">add_edges</span>(g,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">8</span>,
+                   <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">11</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>))
+<span class="kw">V</span>(g)<span class="op">$</span>name &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">11</span>
+
+<span class="kw">plot</span>(g,
+     <span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>,<span class="dt">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">vertex.size=</span><span class="dv">16</span>,<span class="dt">vertex.label.cex=</span><span class="fl">0.75</span>,
+     <span class="dt">edge.color=</span><span class="st">&quot;black&quot;</span>,
+     <span class="dt">margin=</span><span class="dv">0</span>,<span class="dt">asp=</span><span class="fl">0.5</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p>We can compare neighborhoods manually with the <code>neighborhood</code> function of the <code>igraph</code> package. Note the <code>mindist</code> parameter to distinguish between open and closed neighborhood.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">u &lt;-<span class="st"> </span><span class="dv">3</span>
+v &lt;-<span class="st"> </span><span class="dv">5</span>
+Nu &lt;-<span class="st"> </span><span class="kw">neighborhood</span>(g,<span class="dt">order=</span><span class="dv">1</span>,<span class="dt">nodes=</span>u,<span class="dt">mindist =</span> <span class="dv">1</span>)[[<span class="dv">1</span>]] <span class="co">#N(u) </span>
+Nv &lt;-<span class="st"> </span><span class="kw">neighborhood</span>(g,<span class="dt">order=</span><span class="dv">1</span>,<span class="dt">nodes=</span>v,<span class="dt">mindist =</span> <span class="dv">0</span>)[[<span class="dv">1</span>]] <span class="co">#N[v] </span>
+
+Nu</code></pre></div>
+<pre><code>## + 2/11 vertices, named, from c5384d4:
+## [1] 5  11</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Nv</code></pre></div>
+<pre><code>## + 4/11 vertices, named, from c5384d4:
+## [1] 5  3  9  11</code></pre>
+<p>Although it is obvious that <code>Nu</code> is a subset of <code>Nv</code>, we can verify it with <code>R</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all</span>(Nu<span class="op">%in%</span>Nv)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Checking all pairs of nodes can efficiently be done with the <code>neighborhood_inclusion()</code> function from the <code>netrankr</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">P &lt;-<span class="st"> </span><span class="kw">neighborhood_inclusion</span>(g)
+P</code></pre></div>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11]
+##  [1,]    0    0    1    0    1    1    1    0    0     0     1
+##  [2,]    0    0    0    1    0    0    0    1    0     0     0
+##  [3,]    0    0    0    0    1    0    0    0    0     0     1
+##  [4,]    0    0    0    0    0    0    0    0    0     0     0
+##  [5,]    0    0    0    0    0    0    0    0    0     0     0
+##  [6,]    0    0    0    0    0    0    0    0    0     0     0
+##  [7,]    0    0    0    0    0    0    0    0    0     0     0
+##  [8,]    0    0    0    0    0    0    0    0    0     0     0
+##  [9,]    0    0    0    0    0    0    0    0    0     0     0
+## [10,]    0    0    0    0    0    0    0    0    0     0     0
+## [11,]    0    0    0    0    0    0    0    0    0     0     0</code></pre>
+<p>If an entry <code>P[u,v]</code> is equal to one, we have <span class="math inline">\(N(u)\subseteq N[v]\)</span>.</p>
+<p>The function <code>dominance_graph()</code> can alternatively be used to visualize the neighborhood inclusion as a directed graph.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g.dom &lt;-<span class="st"> </span><span class="kw">dominance_graph</span>(P)
+
+<span class="kw">plot</span>(g.dom,
+     <span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>,<span class="dt">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">vertex.size=</span><span class="dv">16</span>, <span class="dt">vertex.label.cex=</span><span class="fl">0.75</span>,
+     <span class="dt">edge.color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">edge.arrow.size=</span><span class="fl">0.5</span>,<span class="dt">margin=</span><span class="dv">0</span>,<span class="dt">asp=</span><span class="fl">0.5</span>)</code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div id="centrality-and-neighborhood-inclusion" class="section level3">
+<h3>Centrality and Neighborhood-inclusion</h3>
+<p>We start by calculating some standard measures of centrality found in the <code>ìgraph</code> package for our example network. Note that the <code>netrankr</code> package also implements a great variety of indices, but they need further specifications described in <a href="centrality_indices.html">this</a> vignette.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cent.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">vertex=</span><span class="dv">1</span><span class="op">:</span><span class="dv">11</span>,
+  <span class="dt">degree=</span><span class="kw">degree</span>(g),
+  <span class="dt">betweenness=</span><span class="kw">betweenness</span>(g),
+  <span class="dt">closeness=</span><span class="kw">closeness</span>(g),
+  <span class="dt">eigenvector=</span><span class="kw">eigen_centrality</span>(g)<span class="op">$</span>vector,
+  <span class="dt">subgraph=</span><span class="kw">subgraph_centrality</span>(g)
+)
+
+<span class="co">#rounding for better readability</span>
+cent.df.rounded &lt;-<span class="st"> </span><span class="kw">round</span>(cent.df,<span class="dv">4</span>) 
+cent.df.rounded</code></pre></div>
+<pre><code>##    vertex degree betweenness closeness eigenvector subgraph
+## 1       1      1      0.0000    0.0370      0.2260   1.8251
+## 2       2      1      0.0000    0.0294      0.0646   1.5954
+## 3       3      2      0.0000    0.0400      0.3786   3.1486
+## 4       4      2      9.0000    0.0400      0.2415   2.4231
+## 5       5      3      3.8333    0.0500      0.5709   4.3871
+## 6       6      4      9.8333    0.0588      0.9847   7.8073
+## 7       7      4      2.6667    0.0526      1.0000   7.9394
+## 8       8      4     16.3333    0.0556      0.8386   6.6728
+## 9       9      4      7.3333    0.0556      0.9114   7.0327
+## 10     10      4      1.3333    0.0526      0.9986   8.2421
+## 11     11      5     14.6667    0.0556      0.8450   7.3896</code></pre>
+<p>Notice how for each centrality index, different vertices are considered to be the most central node. The most central from degree to subgraph centrality are <span class="math inline">\(11\)</span>, <span class="math inline">\(8\)</span>, <span class="math inline">\(6\)</span>, <span class="math inline">\(7\)</span> and <span class="math inline">\(10\)</span>. Note that only <em>undominated</em> vertices can achieve the highest score for any reasonable index. As soon as a vertex is dominated by at least one other, it will always be ranked below the dominator. We can check for undominated vertices simply by forming the row Sums in <code>P</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which</span>(<span class="kw">rowSums</span>(P)<span class="op">==</span><span class="dv">0</span>)</code></pre></div>
+<pre><code>## [1]  4  5  6  7  8  9 10 11</code></pre>
+<p>8 nodes are undominated in the graph. It is thus entirely possible to find indices that would also rank <span class="math inline">\(4, 5\)</span> and <span class="math inline">\(9\)</span> on top.</p>
+<p>Besides the top ranked nodes, we can check if the entire partial ranking <code>P</code> is preserved in each centrality ranking. If there exists a pair <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> and index <span class="math inline">\(c()\)</span> such that <span class="math inline">\(N(u)\subseteq N[v]\)</span> but <span class="math inline">\(c(v)&gt;c(u)\)</span>, we do not consider <span class="math inline">\(c\)</span> to be a valid index.</p>
+<p>In our example, we considered vertex <span class="math inline">\(3\)</span> and <span class="math inline">\(5\)</span>, where <span class="math inline">\(3\)</span> was dominated by <span class="math inline">\(5\)</span>. It is easy to verify that all centrality scores of <span class="math inline">\(5\)</span> are in fact greater than the ones of <span class="math inline">\(3\)</span> by inspecting the respective rows in the table. To check all pairs, we use the function <code>is_preserved</code>. The function takes a partial ranking, as induced by neighborhood inclusion, and a score vector of a centrality index and checks if <code>P[i,j]==1 &amp; scores[i]&gt;scores[j]</code> is <code>FALSE</code> for all pairs <code>i</code> and <code>j</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(cent.df[,<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>],<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">is_preserved</span>(P,x))</code></pre></div>
+<pre><code>##      degree betweenness   closeness eigenvector    subgraph 
+##        TRUE        TRUE        TRUE        TRUE        TRUE</code></pre>
+<p>All considered indices preserve the neighborhood inclusion preorder on the example network.</p>
+<p><em>NOTE</em>: Preserving neighborhood inclusion on <strong>one</strong> network does not guarantee that an index preserves it on <strong>all</strong> networks. For more details refer to the paper cited in the first section.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
