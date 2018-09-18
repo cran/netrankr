@@ -10,7 +10,7 @@ V(g)$name <- 1:11
 
 #adjacency
 A <- indirect_relations(g,type = "identity")
-#shortes path distances
+#shortest path distances
 D <- indirect_relations(g,type="dist_sp")
 #dyadic dependencies (as used in betweenness centrality)
 B <- indirect_relations(g,type = "depend_sp")

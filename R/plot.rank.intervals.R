@@ -2,7 +2,6 @@
 #' @description Compute rank intervals (minimal and maximal possible rank) and visualize them with ggplot. 
 #' @param P A partial ranking as matrix object calculated with [neighborhood_inclusion]
 #'    or [positional_dominance].
-#' @param names String with potential names of nodes used in the plot (optional).
 #' @param cent.df A data frame containing centrality scores of indices (optional). See Details.
 #' @param ties.method String specifying how ties are treated in the base \code{\link[base]{rank}} function.
 #' @details 
@@ -31,17 +30,16 @@
 #' \dontrun{plot_rank_intervals(P,cent.df=cent_scores)}
 #' @export
 
-plot_rank_intervals <- function(P, names, cent.df,ties.method="min") {
+plot_rank_intervals <- function(P, cent.df,ties.method="min") {
     if (!requireNamespace("ggplot2", quietly = TRUE)) {
         stop("ggplot2 needed for this function to work. Please install it.", call. = FALSE)
     }
     
     n <- nrow(P)
-    if (missing(names)) {
-        names <- 1:nrow(P)
-    }
-    if (length(names) != n) {
-        stop("names must have the same length as the number of nodes")
+    if (is.null(rownames(P))) {
+        names <- paste0("V",1:nrow(P))
+    } else {
+      names <- rownames(P)
     }
     intervals <- netrankr::rank_intervals(P)
     intervals$node <- as.character(names)

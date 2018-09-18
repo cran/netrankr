@@ -20,12 +20,6 @@ P <- g %>% neighborhood_inclusion()
 
 rank_intervals(P)
 
-## ----vis_intervals-------------------------------------------------------
-plot_rank_intervals(P)
-
-## ----vis_intervals_names-------------------------------------------------
-plot_rank_intervals(P,names=V(g)$name)
-
 ## ----vis_intervals_cent--------------------------------------------------
 
 cent_scores <- data.frame(
@@ -34,7 +28,7 @@ cent_scores <- data.frame(
    closeness=round(closeness(g),4),
    eigenvector=round(eigen_centrality(g)$vector,4))
 
-plot_rank_intervals(P,names=V(g)$name,cent.df = cent_scores)
+plot_rank_intervals(P,cent.df = cent_scores)
 
 ## ----tg_ri---------------------------------------------------------------
 set.seed(123)

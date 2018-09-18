@@ -1,3 +1,13 @@
+# netrankr 0.2.1
+
+* fixed a bug in `index_builder` which prevented the building of self defined indices
+* fixed a still existing bug in `transitive_reduction()`
+* added `type = weights` in `indirect_relations()`
+* `type = "identity"` in `indirect_relations()` is now deprecated. Use `type = "adjacency"` instead.
+* `type = "weight"` added to `indirect_relations()` to return the weighted adjacency matrix
+* vertex names are now properly added as column and rownames to matrices produced by `indirect_relations()` and
+`exact_rank_prob()`.
+
 ## netrankr 0.2.0
 
 * added Rstudio addin to build more than 20 centrality indices
@@ -23,7 +33,7 @@ depend_exp, depend_rsps, depend_rspn, depend_curflow, dist_rwalk, dist_walk
 
 * most function reimplemented in C++ for efficiency. 
 * vignettes added: `browseVignettes("netrankr")`
-* added visualization function `plot_rank_intervals`
+* added visualization function `plot_rank_intervals()`
 * spell checked and extended help
 
 ## netrankr 0.0.1-0.0.4

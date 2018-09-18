@@ -11,7 +11,7 @@ library(magrittr)
 #  
 #  #Degree
 #  g %>%
-#    indirect_relations(type="identity") %>%
+#    indirect_relations(type="adjacency") %>%
 #    aggregate_positions(type="sum")
 #  #Closeness
 #  g %>%
@@ -82,7 +82,7 @@ library(magrittr)
 ## ----index_func----------------------------------------------------------
 degree_centrality <- function(g){
   DC <- g %>% 
-    indirect_relations(type="identity") %>% 
+    indirect_relations(type="adjacency") %>% 
     aggregate_positions(type="sum")
   return(DC)
 }

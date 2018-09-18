@@ -16,7 +16,7 @@ index_builder <- function() {
                       `attenuated walks`="walks_attenuated",
                       `up to length k` = "walks_uptok")
   
-  transforms <- list(identity="identity",
+  transforms <- list(adjacency="identity",
                      dist_sp=dist_transform,
                      dist_resist=dist_transform,
                      dist_lf=dist_transform,
@@ -30,7 +30,7 @@ index_builder <- function() {
                      depend_rspn=c(identity="identity"),
                      walks=walk_transform)
   
-  indices <- list("degree"=c("identity","identity","sum"),
+  indices <- list("degree"=c("adjacency","identity","sum"),
                   "ccclassic"=c("dist_sp","identity","invsum"),
                   "bcsp"=c("depend_sp","identity","sum"),
                   "eigen"=c("walks","walks_limit_prop","sum"),
@@ -58,7 +58,8 @@ index_builder <- function() {
     miniUI::gadgetTitleBar("Centrality Index Builder"),
     shiny::fluidRow(
       shiny::column(6,shiny::selectInput("index", "Prebuild Indices",
-                                         list("Classic Indices"=c("Degree"="degree","Closeness"="ccclassic",
+                                         list("Build your own"="buildself",
+                                              "Classic Indices"=c("Degree"="degree","Closeness"="ccclassic",
                                                                   "Betweenness"="bcsp", "Eigenvector"="eigen"),
                                               "Feedback"=c("Subgraph"="scall","Subgraph even"="sceven",
                                                            "Subgraph odd"="scodd", "Katz Status"="katz",
@@ -80,7 +81,7 @@ index_builder <- function() {
     shiny::fluidRow(
       shiny::column(3, shiny::textInput("network", "network", value = "g", width = NULL, placeholder = NULL)),
       shiny::column(3, shiny::selectInput("relation", "Indirect Relation",
-                                          list("Adjacency"=c("Adjacency"="identity"),
+                                          list("Adjacency"=c("Adjacency"="adjacency"),
                                                "Distances"=c("Shortest Path Distance" = "dist_sp",
                                                              "Resistance Distance" = "dist_resist",
                                                              "Log Forest Distance" = "dist_lf",
@@ -168,12 +169,13 @@ index_builder <- function() {
     })
     shiny::observe({
       index_focus <- indices[[input$index]]
-      shiny::updateSelectInput(session,"relation",selected=index_focus[1])
-      shiny::updateSelectInput(session,"transformation",
-                               choices = transforms[[input$relation]],
-                               selected=index_focus[2])
-      shiny::updateSelectInput(session,"aggregation",selected=index_focus[3])
-      
+      if(input$index!="buildself"){
+        shiny::updateSelectInput(session,"relation",selected=index_focus[1])
+        shiny::updateSelectInput(session,"transformation",
+                                 choices = transforms[[input$relation]],
+                                 selected=index_focus[2])
+        shiny::updateSelectInput(session,"aggregation",selected=index_focus[3])
+      }
     })
     shiny::observeEvent(input$done, {
       lfparam_text <- ifelse(input$relation!="dist_lf","",paste0(", lfparam = ",input$lfparam))

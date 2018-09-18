@@ -105,9 +105,9 @@ g &lt;-<span class="st"> </span><span class="kw">add_edges</span>(g,<span class=
 <span class="kw">V</span>(g)<span class="op">$</span>name &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">11</span>
 
 <span class="co">#neighborhood inclusion can be expressed with the analytic pipeline</span>
-D &lt;-<span class="st"> </span>g <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">indirect_relations</span>(<span class="dt">type=</span><span class="st">&quot;identity&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">positional_dominance</span>()
-
-<span class="co">#without %&gt;% operator:</span>
+D &lt;-<span class="st"> </span>g <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">indirect_relations</span>(<span class="dt">type=</span><span class="st">&quot;identity&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">positional_dominance</span>()</code></pre></div>
+<pre><code>## Warning in indirect_relations(., type = &quot;identity&quot;): type=&quot;identity&quot; is deprecated. Using &quot;adjacency&quot; instead.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#without %&gt;% operator:</span>
 <span class="co"># rel &lt;- indirect_relations(g,type=&quot;identity&quot;)</span>
 <span class="co"># D &lt;- positional_dominance(rel)</span>
 
@@ -118,11 +118,11 @@ D &lt;-<span class="st"> </span>g <span class="op">%&gt;%</span><span class="st"
 <p>The <code>map</code> parameter of <code>positional_dominance</code> allows to distinguish between dominance under <em>total heterogeneity</em> (<code>map=FALSE</code>) and <em>total homogeneity</em> (<code>map=TRUE</code>). In the later case, all relations can be ordered non-decreasingly (or non-increasingly if the relation describes costs, such as distances) and afterwards checked front to back. Dominance under total homogeneity yields a ranking, if the relation is binary (e.g. adjacent or not).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">D &lt;-<span class="st"> </span>g <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">indirect_relations</span>(<span class="dt">type=</span><span class="st">&quot;identity&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">positional_dominance</span>(<span class="dt">map=</span><span class="ot">TRUE</span>)
-
-<span class="kw">comparable_pairs</span>(D)</code></pre></div>
+<span class="st">  </span><span class="kw">positional_dominance</span>(<span class="dt">map=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## Warning in indirect_relations(., type = &quot;identity&quot;): type=&quot;identity&quot; is deprecated. Using &quot;adjacency&quot; instead.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">comparable_pairs</span>(D)</code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<p>For cost variables like shortes path distances, the <code>benefit</code> parameter is set to <code>FALSE</code>.</p>
+<p>For cost variables like shortest path distances, the <code>benefit</code> parameter is set to <code>FALSE</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">D1 &lt;-<span class="st"> </span>g <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">indirect_relations</span>(<span class="dt">type=</span><span class="st">&quot;dist_sp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">positional_dominance</span>(<span class="dt">map=</span><span class="ot">FALSE</span>,<span class="dt">benefit=</span><span class="ot">FALSE</span>)</code></pre></div>

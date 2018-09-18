@@ -2,7 +2,7 @@
 netrankr
 ========
 
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/netrankr)](https://cran.r-project.org/package=netrankr) [![CRAN Downloads Per Month](http://cranlogs.r-pkg.org/badges/netrankr)](https://CRAN.R-project.org/package=netrankr) [![Travis-CI Build Status](https://travis-ci.org/schochastics/netrankr.svg?branch=master)](https://travis-ci.org/schochastics/netrankr) [![codecov](https://codecov.io/gh/schochastics/netrankr/branch/master/graph/badge.svg)](https://codecov.io/gh/schochastics/netrankr)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/netrankr)](https://cran.r-project.org/package=netrankr) [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/netrankr)](https://CRAN.R-project.org/package=netrankr) [![Travis-CI Build Status](https://travis-ci.org/schochastics/netrankr.svg?branch=master)](https://travis-ci.org/schochastics/netrankr) [![codecov](https://codecov.io/gh/schochastics/netrankr/branch/master/graph/badge.svg)](https://codecov.io/gh/schochastics/netrankr)
 
 Overview
 --------
@@ -16,7 +16,11 @@ Visit the [online manual](https://schochastics.github.io/netrankr) for more Deta
 Install
 -------
 
-To install from CRAN: \[not yet published\]
+To install from CRAN:
+
+``` r
+ install.packages("netrankr")
+```
 
 To install the developer version from github:
 
@@ -27,6 +31,8 @@ devtools::install_github("schochastics/netrankr")
 
 Details
 -------
+
+Check out the [online](http://schochastics.github.io/netrankr) manual for more help.
 
 The core functions of the package are:
 

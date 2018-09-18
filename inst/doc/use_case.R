@@ -53,10 +53,10 @@ plot(d,vertex.label.color="black",
      edge.arrow.size=0.5)
 
 ## ----rk_inter,fig.align='center',fig.width=5,fig.height=5----------------
-plot_rank_intervals(P,names=V(florentine_m)$name)
+plot_rank_intervals(P)
 
 ## ----probs---------------------------------------------------------------
-res <- exact_rank_prob(P,names=V(florentine_m)$name)
+res <- exact_rank_prob(P)
 
 
 ## ----likely_most_central-------------------------------------------------
@@ -169,13 +169,13 @@ plot(d,layout=cbind(x,y),
      )
 
 ## ----rk_inter_dist,fig.align='center',fig.width=5,fig.height=5-----------
-plot_rank_intervals(D,names=V(florentine_m)$name)
+plot_rank_intervals(D)
 
 ## ----dist_probs----------------------------------------------------------
-res <- exact_rank_prob(D,names = V(florentine_m)$name)
+res <- exact_rank_prob(D)
 
 ## ----dist_probs_lat------------------------------------------------------
-res <- exact_rank_prob(D,names = V(florentine_m)$name,only.results = FALSE)
+res <- exact_rank_prob(D,only.results = FALSE)
 
 ## ----all_rankings--------------------------------------------------------
 all_ranks <- get_rankings(res)
