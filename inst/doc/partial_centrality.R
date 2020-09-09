@@ -1,12 +1,12 @@
-## ----global_options, include=FALSE---------------------------------------
+## ----global_options, include=FALSE--------------------------------------------
 knitr::opts_chunk$set(fig.width=5,fig.align = 'center')
 
-## ----setup, warning=FALSE,message=FALSE----------------------------------
+## ----setup, warning=FALSE,message=FALSE---------------------------------------
 library(netrankr)
 library(igraph)
 library(magrittr)
 
-## ----pos_dom-------------------------------------------------------------
+## ----pos_dom------------------------------------------------------------------
 g <- graph.empty(n=11,directed = FALSE)
 g <- add_edges(g,c(1,11,2,4,3,5,3,11,4,8,5,9,5,11,6,7,6,8,
                    6,10,6,11,7,9,7,10,7,11,8,9,8,10,9,10))
@@ -20,7 +20,7 @@ P <- g %>% neighborhood_inclusion()
 
 rank_intervals(P)
 
-## ----vis_intervals_cent--------------------------------------------------
+## ----vis_intervals_cent-------------------------------------------------------
 
 cent_scores <- data.frame(
    degree=degree(g),
@@ -30,7 +30,7 @@ cent_scores <- data.frame(
 
 plot_rank_intervals(P,cent.df = cent_scores)
 
-## ----tg_ri---------------------------------------------------------------
+## ----tg_ri--------------------------------------------------------------------
 set.seed(123)
 tg <- threshold_graph(20,0.2)
 
@@ -41,7 +41,7 @@ P <- tg %>% neighborhood_inclusion()
 # P <- neighborhood_inclusion(tg)
 plot_rank_intervals(P)
 
-## ----tg_ri_cent----------------------------------------------------------
+## ----tg_ri_cent---------------------------------------------------------------
 cent_scores <- data.frame(
    degree=degree(tg),
    betweenness=round(betweenness(tg),4),

@@ -1,9 +1,9 @@
-## ----setup, warning=FALSE,message=FALSE----------------------------------
+## ----setup, warning=FALSE,message=FALSE---------------------------------------
 library(netrankr)
 library(igraph)
 library(magrittr)
 
-## ----standardcent,eval=F-------------------------------------------------
+## ----standardcent,eval=F------------------------------------------------------
 #  g <- graph.empty(n=11,directed = FALSE)
 #  g <- add_edges(g,c(1,11,2,4,3,5,3,11,4,8,5,9,5,11,6,7,6,8,
 #                     6,10,6,11,7,9,7,10,7,11,8,9,8,10,9,10))
@@ -26,13 +26,13 @@ library(magrittr)
 #    indirect_relations(type="walks",FUN=walks_limit_prop) %>%
 #    aggregate_positions(type="sum")
 
-## ----closeness_variant, eval=F-------------------------------------------
+## ----closeness_variant, eval=F------------------------------------------------
 #  #harmonic closeness
 #  g %>%
 #    indirect_relations(type="dist_sp",FUN=dist_inv) %>%
 #    aggregate_positions(type="sum")
 
-## ----distance_indices,eval=F---------------------------------------------
+## ----distance_indices,eval=F--------------------------------------------------
 #  #residual closeness (Dangalchev,2006)
 #  g %>%
 #    indirect_relations(type="dist_sp",FUN=dist_2pow) %>%
@@ -57,7 +57,7 @@ library(magrittr)
 #    aggregate_positions(type="sum")
 #  
 
-## ----othercent,eval=F----------------------------------------------------
+## ----othercent,eval=F---------------------------------------------------------
 #  #subgraph centrality
 #  g %>%
 #    indirect_relations(type="walks",FUN=walks_exp) %>%
@@ -79,7 +79,7 @@ library(magrittr)
 #    indirect_relations(type="walks",FUN=walks_attenuated) %>%
 #    aggregate_positions(type="sum")
 
-## ----index_func----------------------------------------------------------
+## ----index_func---------------------------------------------------------------
 degree_centrality <- function(g){
   DC <- g %>% 
     indirect_relations(type="adjacency") %>% 

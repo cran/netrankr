@@ -3,7 +3,6 @@
 \docType{package}
 \name{netrankr}
 \alias{netrankr}
-\alias{netrankr-package}
 \title{netrankr: An R package for centrality and partial rankings in networks}
 \description{
 netrankr provides several functions to analyze partial rankings for network
@@ -40,5 +39,4 @@ Consult \code{vignette("probabilistic_cent",package = "netrankr")} for more info
 
 The package provides several additional vignettes that explain the functionality
 of netrankr and its conceptual ideas. See \code{browseVignettes(package = 'netrankr')}
-or the \href{https://schochastics.github.io/netrankr}{online manual}.
 }

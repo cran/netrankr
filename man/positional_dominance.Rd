@@ -17,7 +17,7 @@ or 'two-mode' if \code{A} is a general data matrix.}
 \item{benefit}{Logical scalar, whether the attributes or relations are benefit or cost variables.}
 }
 \value{
-Dominance relations as matrix object. An entry \code{[u,v]} is \code{1} if u is dominated by v.
+Dominance relations as matrix object. An entry \verb{[u,v]} is \code{1} if u is dominated by v.
 }
 \description{
 generalized dominance relations.

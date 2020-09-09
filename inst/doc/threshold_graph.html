@@ -1,63 +1,324 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
 <title>Uniquely ranked graphs</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -79,49 +340,49 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 \]</span></p>
 <p>According to <a href="neighborhood_inclusion.html">this</a> vignette, it is thus clear that all centrality indices induce the same ranking on a threshold graph. More technical details on threshold graphs and results related to centrality can be found in</p>
 <blockquote>
-<p>Schoch, David &amp; Valente, Thomas W., &amp; Brandes, Ulrik. (2017). Correlations among centrality indices and a class of uniquely ranked graphs. <em>Social Networks</em>, <strong>50</strong>, 46-54.(<a href="http://doi.org/10.1016/j.socnet.2017.03.010">link</a>)</p>
+<p>Schoch, David &amp; Valente, Thomas W., &amp; Brandes, Ulrik. (2017). Correlations among centrality indices and a class of uniquely ranked graphs. <em>Social Networks</em>, <strong>50</strong>, 46-54.(<a href="https://doi.org/10.1016/j.socnet.2017.03.010">link</a>)</p>
 </blockquote>
 <hr />
 </div>
 <div id="uniquely-ranked-graphs-in-the-netrankr-package" class="section level2">
 <h2>Uniquely Ranked Graphs in the <code>netrankr</code> Package</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(netrankr)
-<span class="kw">library</span>(igraph)
-<span class="kw">set.seed</span>(<span class="dv">1886</span>) <span class="co">#for reproducibility</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(netrankr)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">set.seed</span>(<span class="dv">1886</span>) <span class="co">#for reproducibility</span></span></code></pre></div>
 <p>Threshold graphs on <span class="math inline">\(n\)</span> vertices can be constructed iteratively with a sequence of <span class="math inline">\(0\)</span>’s and <span class="math inline">\(1\)</span>’s. For each <span class="math inline">\(0\)</span>, an isolated vertex is inserted and for each <span class="math inline">\(1\)</span> a vertex that connects to all previously inserted one’s. This iterative process is implemented in the <code>threshold_graph</code> function. The parameter <code>n</code> is used to set the desired number of vertices. The parameter <code>p</code> is the probability that a dominated vertex is inserted in each step. This parameter roughly equates to the density of the network.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> g1 &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">500</span>,<span class="fl">0.4</span>)
- g2 &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">500</span>,<span class="fl">0.05</span>)
- 
- <span class="kw">c</span>(<span class="kw">round</span>(<span class="kw">graph.density</span>(g1),<span class="dv">2</span>), <span class="kw">round</span>(<span class="kw">graph.density</span>(g2),<span class="dv">2</span>))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a> g1 &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">500</span>,<span class="fl">0.4</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a> g2 &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">500</span>,<span class="fl">0.05</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a> </span>
+<span id="cb2-4"><a href="#cb2-4"></a> <span class="kw">c</span>(<span class="kw">round</span>(<span class="kw">graph.density</span>(g1),<span class="dv">2</span>), <span class="kw">round</span>(<span class="kw">graph.density</span>(g2),<span class="dv">2</span>))</span></code></pre></div>
 <pre><code>## [1] 0.41 0.03</code></pre>
 <p>The class of threshold graphs includes various well-known graphs, for instance star shaped and complete networks. This graphs can be constructed with <code>p=0</code> and <code>p=1</code> respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">star &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">6</span>,<span class="dv">0</span>) 
-complete &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">6</span>,<span class="dv">1</span>)
-<span class="kw">plot</span>(star,<span class="dt">vertex.label=</span><span class="ot">NA</span>,<span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>)
-<span class="kw">plot</span>(complete,<span class="dt">vertex.label=</span><span class="ot">NA</span>,<span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>star &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">6</span>,<span class="dv">0</span>) </span>
+<span id="cb4-2"><a href="#cb4-2"></a>complete &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">6</span>,<span class="dv">1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">plot</span>(star,<span class="dt">vertex.label=</span><span class="ot">NA</span>,<span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">plot</span>(complete,<span class="dt">vertex.label=</span><span class="ot">NA</span>,<span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><img src="data:image/png;base64,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" /></p>
 <p>To check that all pairs are comparable by neighborhood inclusion, we can use the function <code>comparable_pairs</code>. The function computes the density of the underlying undirected graph induced by the neighborhood-inclusion relation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">10</span>,<span class="fl">0.4</span>)
-P &lt;-<span class="st"> </span><span class="kw">neighborhood_inclusion</span>(g)
-<span class="kw">comparable_pairs</span>(P)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>g &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">10</span>,<span class="fl">0.4</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>P &lt;-<span class="st"> </span><span class="kw">neighborhood_inclusion</span>(g)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">comparable_pairs</span>(P)</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </div>
 <div id="correlation-and-threshold-graphs" class="section level2">
 <h2>Correlation and Threshold Graphs</h2>
 <p>We construct a random threshold graph and calculate some standard measures of centrality that are included in the <code>igraph</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">100</span>,<span class="fl">0.1</span>)
-
-cent.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-  <span class="dt">degree=</span><span class="kw">degree</span>(g),
-  <span class="dt">betweenness=</span><span class="kw">betweenness</span>(g),
-  <span class="dt">closeness=</span><span class="kw">closeness</span>(g),
-  <span class="dt">eigenvector=</span><span class="kw">round</span>(<span class="kw">eigen_centrality</span>(g)<span class="op">$</span>vector,<span class="dv">8</span>),
-  <span class="dt">subgraph=</span><span class="kw">subgraph_centrality</span>(g)
-)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>g &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">100</span>,<span class="fl">0.1</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>cent.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="dt">degree=</span><span class="kw">degree</span>(g),</span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">betweenness=</span><span class="kw">betweenness</span>(g),</span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">closeness=</span><span class="kw">closeness</span>(g),</span>
+<span id="cb7-7"><a href="#cb7-7"></a>  <span class="dt">eigenvector=</span><span class="kw">round</span>(<span class="kw">eigen_centrality</span>(g)<span class="op">$</span>vector,<span class="dv">8</span>),</span>
+<span id="cb7-8"><a href="#cb7-8"></a>  <span class="dt">subgraph=</span><span class="kw">subgraph_centrality</span>(g)</span>
+<span id="cb7-9"><a href="#cb7-9"></a>)</span></code></pre></div>
 <p>We expect, that all indices are perfectly rank correlated since all pairs of nodes are comparable by neighborhood-inclusion.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="kw">round</span>(cent.df,<span class="dv">8</span>),<span class="dt">method=</span><span class="st">&quot;kendall&quot;</span>)
-cor.mat &lt;-<span class="st"> </span><span class="kw">round</span>(cor.mat,<span class="dv">2</span>)
-cor.mat</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>cor.mat &lt;-<span class="st"> </span><span class="kw">cor</span>(<span class="kw">round</span>(cent.df,<span class="dv">8</span>),<span class="dt">method=</span><span class="st">&quot;kendall&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>cor.mat &lt;-<span class="st"> </span><span class="kw">round</span>(cor.mat,<span class="dv">2</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>cor.mat</span></code></pre></div>
 <pre><code>##             degree betweenness closeness eigenvector subgraph
 ## degree        1.00        0.52      1.00        1.00     0.96
 ## betweenness   0.52        1.00      0.52        0.52     0.50
@@ -137,23 +398,23 @@ cor.mat</code></pre></div>
 </ul>
 <p>Kendall’s <span class="math inline">\(\tau\)</span> considers left and right ties as correlation reducing. That is if two vertices are tied in one ranking, but not the other, the correlations is weakened. Left and right ties are, however, not forbidden according to the neighborhood inclusion property. The only forbidden case are discordant pairs. That is, <span class="math inline">\(N(u)\subseteq N[v]\)</span> can not result in <span class="math inline">\(c(u)&gt;c(v)\)</span> but it may result in <span class="math inline">\(c(u)=c(v)\)</span>. Also, one can argue that left and right ties distinguish between fine/coarse grained indices.</p>
 <p><code>netrankr</code> comes with a function called <code>compare_ranks</code> which calculates all occurrences of the above cases. Simply counting the cases instead of aggregating them will help circumvent the problem of possibly misinterpreting correlation measures.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">comp &lt;-<span class="st"> </span><span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>degree,cent.df<span class="op">$</span>betweenness)
-<span class="kw">unlist</span>(comp)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>comp &lt;-<span class="st"> </span><span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>degree,cent.df<span class="op">$</span>betweenness)</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">unlist</span>(comp)</span></code></pre></div>
 <pre><code>## concordant discordant       ties       left      right 
 ##       1209          0        464          0       3277</code></pre>
 <p>Notice that there is a high number of right ties which influences the correlation if measured with Kendall’s <span class="math inline">\(\tau\)</span>. However, there do not exist any discordant pairs for any pair of indices.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dis.pairs &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">5</span>)
-dis.pairs[<span class="dv">1</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,
-                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>degree,x)<span class="op">$</span>discordant)
-dis.pairs[<span class="dv">2</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,
-                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>betweenness,x)<span class="op">$</span>discordant)
-dis.pairs[<span class="dv">3</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,
-                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>closeness,x)<span class="op">$</span>discordant)
-dis.pairs[<span class="dv">4</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,
-                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>eigenvector,x)<span class="op">$</span>discordant)
-dis.pairs[<span class="dv">5</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,
-                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>subgraph,x)<span class="op">$</span>discordant)
-dis.pairs</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>dis.pairs &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">5</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>dis.pairs[<span class="dv">1</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,</span>
+<span id="cb12-3"><a href="#cb12-3"></a>                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>degree,x)<span class="op">$</span>discordant)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>dis.pairs[<span class="dv">2</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,</span>
+<span id="cb12-5"><a href="#cb12-5"></a>                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>betweenness,x)<span class="op">$</span>discordant)</span>
+<span id="cb12-6"><a href="#cb12-6"></a>dis.pairs[<span class="dv">3</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,</span>
+<span id="cb12-7"><a href="#cb12-7"></a>                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>closeness,x)<span class="op">$</span>discordant)</span>
+<span id="cb12-8"><a href="#cb12-8"></a>dis.pairs[<span class="dv">4</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,</span>
+<span id="cb12-9"><a href="#cb12-9"></a>                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>eigenvector,x)<span class="op">$</span>discordant)</span>
+<span id="cb12-10"><a href="#cb12-10"></a>dis.pairs[<span class="dv">5</span>,] &lt;-<span class="st"> </span><span class="kw">apply</span>(cent.df,<span class="dv">2</span>,</span>
+<span id="cb12-11"><a href="#cb12-11"></a>                       <span class="cf">function</span>(x)<span class="kw">compare_ranks</span>(cent.df<span class="op">$</span>subgraph,x)<span class="op">$</span>discordant)</span>
+<span id="cb12-12"><a href="#cb12-12"></a>dis.pairs</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5]
 ## [1,]    0    0    0    0    0
 ## [2,]    0    0    0    0    0
@@ -166,21 +427,24 @@ dis.pairs</code></pre></div>
 <h2>Distances from a threshold graph</h2>
 <p>As it is always the case with artificial graph structures, it is rather unlikely to encounter threshold graphs in the wild. The best we can hope for is to be <em>close</em> to a threshold graph. This is based on the intuition that the closer a graph is to be a threshold graph, the more of its properties resemble one. The closer we are, the more correlated we assume centrality indices to be. The further away we are, the more disagreement we will find among indices. The problematic point is: how do we define <em>being close to a threshold graph</em>. An in depth discussion of possible measures can be found in the paper mentioned at the beginning of this vignette.</p>
 <p><code>netrankr</code> implements one function that can be used to assess the distance of arbitrary graphs to threshold graphs. The so called <em>majorization gap</em> operates solely on the degree sequence and determines the number of entries that have to be changed in order to obtain the degree sequence of a threshold graph. Changing can, however, not be done arbitrarily. The only allowed operation is to lower the degree of one vertex and simultaneously increase the degree of another. For threshold graphs, this measure is obviously zero.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tg &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">200</span>,<span class="fl">0.2</span>)
-<span class="kw">majorization_gap</span>(g)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>tg &lt;-<span class="st"> </span><span class="kw">threshold_graph</span>(<span class="dv">200</span>,<span class="fl">0.2</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">majorization_gap</span>(g)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <p>By default, <code>majorization_gap</code> is normalized by the number of edges.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g &lt;-<span class="st"> </span><span class="kw">graph.empty</span>(<span class="dt">n=</span><span class="dv">11</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>)
-g &lt;-<span class="st"> </span><span class="kw">add_edges</span>(g,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">8</span>,
-                   <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">11</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>))
-<span class="kw">majorization_gap</span>(g)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>g &lt;-<span class="st"> </span><span class="kw">graph.empty</span>(<span class="dt">n=</span><span class="dv">11</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>g &lt;-<span class="st"> </span><span class="kw">add_edges</span>(g,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">8</span>,</span>
+<span id="cb16-3"><a href="#cb16-3"></a>                   <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">11</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>))</span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="kw">majorization_gap</span>(g)</span></code></pre></div>
 <pre><code>## [1] 0.3529412</code></pre>
 <p>In this example, around 35% of all entries have to be changed in order to obtain a threshold graph. The normalization is done to compare the majorization gap across networks with different sizes. To obtain the raw number of changes, set <code>norm=FALSE</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">majorization_gap</span>(g,<span class="dt">norm =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">majorization_gap</span>(g,<span class="dt">norm =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p>The majorization gap serves as an indicator for how much variance we can expect in the rankings of different centrality indices. The lower it is, the closer we are to a threshold graph where only one ranking is possible. The further away we are, the more degrees of freedom exist to rank nodes differently and we will generally observe lower correlations. For more details, again, refer to the mentioned paper at the beginning.</p>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
