@@ -7,10 +7,8 @@ library(igraph)
 library(magrittr)
 
 ## ----pos_dom------------------------------------------------------------------
-g <- graph.empty(n=11,directed = FALSE)
-g <- add_edges(g,c(1,11,2,4,3,5,3,11,4,8,5,9,5,11,6,7,6,8,
-                   6,10,6,11,7,9,7,10,7,11,8,9,8,10,9,10))
-V(g)$name <- LETTERS[1:11]
+data("dbces11")
+g <- dbces11
 
 #neighborhood inclusion 
 P <- g %>% neighborhood_inclusion()
@@ -28,7 +26,8 @@ cent_scores <- data.frame(
    closeness=round(closeness(g),4),
    eigenvector=round(eigen_centrality(g)$vector,4))
 
-plot_rank_intervals(P,cent.df = cent_scores)
+rk_int <- rank_intervals(P)
+plot(rk_int,cent_scores = cent_scores)
 
 ## ----tg_ri--------------------------------------------------------------------
 set.seed(123)
@@ -39,9 +38,9 @@ P <- tg %>% neighborhood_inclusion()
 
 #without %>% operator:
 # P <- neighborhood_inclusion(tg)
-plot_rank_intervals(P)
+plot(rank_intervals(P))
 
-## ----tg_ri_cent---------------------------------------------------------------
+## ----tg_ri_cent,out-----------------------------------------------------------
 cent_scores <- data.frame(
    degree=degree(tg),
    betweenness=round(betweenness(tg),4),
@@ -49,5 +48,5 @@ cent_scores <- data.frame(
    eigenvector=round(eigen_centrality(tg)$vector,4))
 
 
-plot_rank_intervals(P,cent.df=cent_scores)
+plot(rank_intervals(P),cent_scores = cent_scores)
 

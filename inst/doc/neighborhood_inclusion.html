@@ -14,42 +14,31 @@
 
 <title>Neighborhood-inclusion in networks</title>
 
-<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
-// be compatible with the behavior of Pandoc < 2.8).
-document.addEventListener('DOMContentLoaded', function(e) {
-  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
-  var i, h, a;
-  for (i = 0; i < hs.length; i++) {
-    h = hs[i];
-    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
-    a = h.attributes;
-    while (a.length > 0) h.removeAttribute(a[0].name);
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
-});
-</script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+  .sourceCode {
+    overflow: visible;
   }
-});
-</script>
-
-
-<style type="text/css">code{white-space: pre;}</style>
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -135,187 +124,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
 
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -348,93 +158,91 @@ N(u)\subseteq N[v] \implies c(u)\leq c(v),
 </div>
 <div id="neighborhood-inclusion-in-the-netrankr-package" class="section level2">
 <h2>Neighborhood-inclusion in the <code>netrankr</code> Package</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(netrankr)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(igraph)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">set.seed</span>(<span class="dv">1886</span>) <span class="co">#for reproducibility</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netrankr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1886</span>) <span class="co">#for reproducibility</span></span></code></pre></div>
 <p>We work with the following simple graph.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>g &lt;-<span class="st"> </span><span class="kw">graph.empty</span>(<span class="dt">n=</span><span class="dv">11</span>,<span class="dt">directed =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>g &lt;-<span class="st"> </span><span class="kw">add_edges</span>(g,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">11</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">3</span>,<span class="dv">11</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">5</span>,<span class="dv">11</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">8</span>,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>                   <span class="dv">6</span>,<span class="dv">10</span>,<span class="dv">6</span>,<span class="dv">11</span>,<span class="dv">7</span>,<span class="dv">9</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">11</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">9</span>,<span class="dv">10</span>))</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">V</span>(g)<span class="op">$</span>name &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">11</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">plot</span>(g,</span>
-<span id="cb2-7"><a href="#cb2-7"></a>     <span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>,<span class="dt">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">vertex.size=</span><span class="dv">16</span>,<span class="dt">vertex.label.cex=</span><span class="fl">0.75</span>,</span>
-<span id="cb2-8"><a href="#cb2-8"></a>     <span class="dt">edge.color=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb2-9"><a href="#cb2-9"></a>     <span class="dt">margin=</span><span class="dv">0</span>,<span class="dt">asp=</span><span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;dbces11&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> dbces11</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color=</span><span class="st">&quot;black&quot;</span>,<span class="at">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="at">vertex.size=</span><span class="dv">16</span>,<span class="at">vertex.label.cex=</span><span class="fl">0.75</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">margin=</span><span class="dv">0</span>,<span class="at">asp=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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wEEOx4eHavNjH6ufk8RlrE4I7azmvB4ePt26Irww3jUs2/SG9bZqf6Z6/ALtzGfaX6lsVW19Vf0gc26+OLHNvVTxRtjw6hE22gii/RJzVgNy1wdd7kGVb4RVDFMXH8na8MXc2AmP+9sKqv82oobkP5esruJQX1dRV8SNmxPz/PCBd3s1aX57j8GjXjQkJSfZCnLwCNYHku8g9Sffs+r1WZuVrf/EWQu+2pJzvHIStKx1ZSHdW2rG9JEryNjUfAc1Vbv5c6ufn6uaOXigl7JxMHlWL0h+xEIsj1iLRg0dFTLlj1oruZfl5ksfyYLU9Zq/qYX0jGYBjgY9ymI0PW46U2f1gGRBxmE0pPS7V6albnavuoTBQsGn02NTboReqgXZf/S/ZIz5EfKuocN6QyH/vyJsjejadmBCkfR0/yb8byMALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggAsCMCCACwIwIIALAjAggD/A2QsshonkZD3AAAAAElFTkSuQmCC" style="display: block; margin: auto;" /></p>
 <p>We can compare neighborhoods manually with the <code>neighborhood</code> function of the <code>igraph</code> package. Note the <code>mindist</code> parameter to distinguish between open and closed neighborhood.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>u &lt;-<span class="st"> </span><span class="dv">3</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>v &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>Nu &lt;-<span class="st"> </span><span class="kw">neighborhood</span>(g,<span class="dt">order=</span><span class="dv">1</span>,<span class="dt">nodes=</span>u,<span class="dt">mindist =</span> <span class="dv">1</span>)[[<span class="dv">1</span>]] <span class="co">#N(u) </span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>Nv &lt;-<span class="st"> </span><span class="kw">neighborhood</span>(g,<span class="dt">order=</span><span class="dv">1</span>,<span class="dt">nodes=</span>v,<span class="dt">mindist =</span> <span class="dv">0</span>)[[<span class="dv">1</span>]] <span class="co">#N[v] </span></span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a>Nu</span></code></pre></div>
-<pre><code>## + 2/11 vertices, named, from 6400e17:
-## [1] 5  11</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>Nv</span></code></pre></div>
-<pre><code>## + 4/11 vertices, named, from 6400e17:
-## [1] 5  3  9  11</code></pre>
-<p>Although it is obvious that <code>Nu</code> is a subset of <code>Nv</code>, we can verify it with <code>R</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">all</span>(Nu<span class="op">%in%</span>Nv)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Nu <span class="ot">&lt;-</span> <span class="fu">neighborhood</span>(g,<span class="at">order=</span><span class="dv">1</span>,<span class="at">nodes=</span>u,<span class="at">mindist =</span> <span class="dv">1</span>)[[<span class="dv">1</span>]] <span class="co">#N(u) </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Nv <span class="ot">&lt;-</span> <span class="fu">neighborhood</span>(g,<span class="at">order=</span><span class="dv">1</span>,<span class="at">nodes=</span>v,<span class="at">mindist =</span> <span class="dv">0</span>)[[<span class="dv">1</span>]] <span class="co">#N[v] </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Nu</span></code></pre></div>
+<pre><code>## + 2/11 vertices, named, from 013399c:
+## [1] E K</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Nv</span></code></pre></div>
+<pre><code>## + 4/11 vertices, named, from 013399c:
+## [1] E C I K</code></pre>
+<p>Although it is obvious that <code>Nu</code> is a subset of <code>Nv</code>, we can verify it as follows.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(Nu<span class="sc">%in%</span>Nv)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Checking all pairs of nodes can efficiently be done with the <code>neighborhood_inclusion()</code> function from the <code>netrankr</code> package.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>P &lt;-<span class="st"> </span><span class="kw">neighborhood_inclusion</span>(g)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>P</span></code></pre></div>
-<pre><code>##    1 2 3 4 5 6 7 8 9 10 11
-## 1  0 0 1 0 1 1 1 0 0  0  1
-## 2  0 0 0 1 0 0 0 1 0  0  0
-## 3  0 0 0 0 1 0 0 0 0  0  1
-## 4  0 0 0 0 0 0 0 0 0  0  0
-## 5  0 0 0 0 0 0 0 0 0  0  0
-## 6  0 0 0 0 0 0 0 0 0  0  0
-## 7  0 0 0 0 0 0 0 0 0  0  0
-## 8  0 0 0 0 0 0 0 0 0  0  0
-## 9  0 0 0 0 0 0 0 0 0  0  0
-## 10 0 0 0 0 0 0 0 0 0  0  0
-## 11 0 0 0 0 0 0 0 0 0  0  0</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">neighborhood_inclusion</span>(g)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>P</span></code></pre></div>
+<pre><code>##   A B C D E F G H I J K
+## A 0 0 1 0 1 1 1 0 0 0 1
+## B 0 0 0 1 0 0 0 1 0 0 0
+## C 0 0 0 0 1 0 0 0 0 0 1
+## D 0 0 0 0 0 0 0 0 0 0 0
+## E 0 0 0 0 0 0 0 0 0 0 0
+## F 0 0 0 0 0 0 0 0 0 0 0
+## G 0 0 0 0 0 0 0 0 0 0 0
+## H 0 0 0 0 0 0 0 0 0 0 0
+## I 0 0 0 0 0 0 0 0 0 0 0
+## J 0 0 0 0 0 0 0 0 0 0 0
+## K 0 0 0 0 0 0 0 0 0 0 0</code></pre>
 <p>If an entry <code>P[u,v]</code> is equal to one, we have <span class="math inline">\(N(u)\subseteq N[v]\)</span>.</p>
 <p>The function <code>dominance_graph()</code> can alternatively be used to visualize the neighborhood inclusion as a directed graph.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>g.dom &lt;-<span class="st"> </span><span class="kw">dominance_graph</span>(P)</span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="kw">plot</span>(g.dom,</span>
-<span id="cb11-4"><a href="#cb11-4"></a>     <span class="dt">vertex.color=</span><span class="st">&quot;black&quot;</span>,<span class="dt">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">vertex.size=</span><span class="dv">16</span>, <span class="dt">vertex.label.cex=</span><span class="fl">0.75</span>,</span>
-<span id="cb11-5"><a href="#cb11-5"></a>     <span class="dt">edge.color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">edge.arrow.size=</span><span class="fl">0.5</span>,<span class="dt">margin=</span><span class="dv">0</span>,<span class="dt">asp=</span><span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>g.dom <span class="ot">&lt;-</span> <span class="fu">dominance_graph</span>(P)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g.dom,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color=</span><span class="st">&quot;black&quot;</span>,<span class="at">vertex.label.color=</span><span class="st">&quot;white&quot;</span>, <span class="at">vertex.size=</span><span class="dv">16</span>, <span class="at">vertex.label.cex=</span><span class="fl">0.75</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color=</span><span class="st">&quot;black&quot;</span>, <span class="at">edge.arrow.size=</span><span class="fl">0.5</span>,<span class="at">margin=</span><span class="dv">0</span>,<span class="at">asp=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
 <div id="centrality-and-neighborhood-inclusion" class="section level3">
 <h3>Centrality and Neighborhood-inclusion</h3>
 <p>We start by calculating some standard measures of centrality found in the <code>ìgraph</code> package for our example network. Note that the <code>netrankr</code> package also implements a great variety of indices, but they need further specifications described in <a href="centrality_indices.html">this</a> vignette.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>cent.df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb12-2"><a href="#cb12-2"></a>  <span class="dt">vertex=</span><span class="dv">1</span><span class="op">:</span><span class="dv">11</span>,</span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="dt">degree=</span><span class="kw">degree</span>(g),</span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="dt">betweenness=</span><span class="kw">betweenness</span>(g),</span>
-<span id="cb12-5"><a href="#cb12-5"></a>  <span class="dt">closeness=</span><span class="kw">closeness</span>(g),</span>
-<span id="cb12-6"><a href="#cb12-6"></a>  <span class="dt">eigenvector=</span><span class="kw">eigen_centrality</span>(g)<span class="op">$</span>vector,</span>
-<span id="cb12-7"><a href="#cb12-7"></a>  <span class="dt">subgraph=</span><span class="kw">subgraph_centrality</span>(g)</span>
-<span id="cb12-8"><a href="#cb12-8"></a>)</span>
-<span id="cb12-9"><a href="#cb12-9"></a></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#rounding for better readability</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a>cent.df.rounded &lt;-<span class="st"> </span><span class="kw">round</span>(cent.df,<span class="dv">4</span>) </span>
-<span id="cb12-12"><a href="#cb12-12"></a>cent.df.rounded</span></code></pre></div>
-<pre><code>##    vertex degree betweenness closeness eigenvector subgraph
-## 1       1      1      0.0000    0.0370      0.2260   1.8251
-## 2       2      1      0.0000    0.0294      0.0646   1.5954
-## 3       3      2      0.0000    0.0400      0.3786   3.1486
-## 4       4      2      9.0000    0.0400      0.2415   2.4231
-## 5       5      3      3.8333    0.0500      0.5709   4.3871
-## 6       6      4      9.8333    0.0588      0.9847   7.8073
-## 7       7      4      2.6667    0.0526      1.0000   7.9394
-## 8       8      4     16.3333    0.0556      0.8386   6.6728
-## 9       9      4      7.3333    0.0556      0.9114   7.0327
-## 10     10      4      1.3333    0.0526      0.9986   8.2421
-## 11     11      5     14.6667    0.0556      0.8450   7.3896</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cent.df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree=</span><span class="fu">degree</span>(g),</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">betweenness=</span><span class="fu">betweenness</span>(g),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">closeness=</span><span class="fu">closeness</span>(g),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">eigenvector=</span><span class="fu">eigen_centrality</span>(g)<span class="sc">$</span>vector,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">subgraph=</span><span class="fu">subgraph_centrality</span>(g)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#rounding for better readability</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>cent.df.rounded <span class="ot">&lt;-</span> <span class="fu">round</span>(cent.df,<span class="dv">4</span>) </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>cent.df.rounded</span></code></pre></div>
+<pre><code>##   vertex degree betweenness closeness eigenvector subgraph
+## A      1      1      0.0000    0.0370      0.2260   1.8251
+## B      2      1      0.0000    0.0294      0.0646   1.5954
+## C      3      2      0.0000    0.0400      0.3786   3.1486
+## D      4      2      9.0000    0.0400      0.2415   2.4231
+## E      5      3      3.8333    0.0500      0.5709   4.3871
+## F      6      4      9.8333    0.0588      0.9847   7.8073
+## G      7      4      2.6667    0.0526      1.0000   7.9394
+## H      8      4     16.3333    0.0556      0.8386   6.6728
+## I      9      4      7.3333    0.0556      0.9114   7.0327
+## J     10      4      1.3333    0.0526      0.9986   8.2421
+## K     11      5     14.6667    0.0556      0.8450   7.3896</code></pre>
 <p>Notice how for each centrality index, different vertices are considered to be the most central node. The most central from degree to subgraph centrality are <span class="math inline">\(11\)</span>, <span class="math inline">\(8\)</span>, <span class="math inline">\(6\)</span>, <span class="math inline">\(7\)</span> and <span class="math inline">\(10\)</span>. Note that only <em>undominated</em> vertices can achieve the highest score for any reasonable index. As soon as a vertex is dominated by at least one other, it will always be ranked below the dominator. We can check for undominated vertices simply by forming the row Sums in <code>P</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">which</span>(<span class="kw">rowSums</span>(P)<span class="op">==</span><span class="dv">0</span>)</span></code></pre></div>
-<pre><code>##  4  5  6  7  8  9 10 11 
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">rowSums</span>(P)<span class="sc">==</span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>##  D  E  F  G  H  I  J  K 
 ##  4  5  6  7  8  9 10 11</code></pre>
 <p>8 nodes are undominated in the graph. It is thus entirely possible to find indices that would also rank <span class="math inline">\(4, 5\)</span> and <span class="math inline">\(9\)</span> on top.</p>
 <p>Besides the top ranked nodes, we can check if the entire partial ranking <code>P</code> is preserved in each centrality ranking. If there exists a pair <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> and index <span class="math inline">\(c()\)</span> such that <span class="math inline">\(N(u)\subseteq N[v]\)</span> but <span class="math inline">\(c(v)&gt;c(u)\)</span>, we do not consider <span class="math inline">\(c\)</span> to be a valid index.</p>
 <p>In our example, we considered vertex <span class="math inline">\(3\)</span> and <span class="math inline">\(5\)</span>, where <span class="math inline">\(3\)</span> was dominated by <span class="math inline">\(5\)</span>. It is easy to verify that all centrality scores of <span class="math inline">\(5\)</span> are in fact greater than the ones of <span class="math inline">\(3\)</span> by inspecting the respective rows in the table. To check all pairs, we use the function <code>is_preserved</code>. The function takes a partial ranking, as induced by neighborhood inclusion, and a score vector of a centrality index and checks if <code>P[i,j]==1 &amp; scores[i]&gt;scores[j]</code> is <code>FALSE</code> for all pairs <code>i</code> and <code>j</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">apply</span>(cent.df[,<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>],<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="kw">is_preserved</span>(P,x))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(cent.df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>],<span class="dv">2</span>,<span class="cf">function</span>(x) <span class="fu">is_preserved</span>(P,x))</span></code></pre></div>
 <pre><code>##      degree betweenness   closeness eigenvector    subgraph 
 ##        TRUE        TRUE        TRUE        TRUE        TRUE</code></pre>
 <p>All considered indices preserve the neighborhood inclusion preorder on the example network.</p>

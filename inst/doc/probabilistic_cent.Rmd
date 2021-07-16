@@ -67,10 +67,8 @@ the rankings induced by various centrality indices, shown as rank intervals
 (consult [this](partial_centrality.html) vignette for details).
 
 ```{r pos_dom}
-g <- graph.empty(n=11,directed = FALSE)
-g <- add_edges(g,c(1,11,2,4,3,5,3,11,4,8,5,9,5,11,6,7,6,8,
-                   6,10,6,11,7,9,7,10,7,11,8,9,8,10,9,10))
-V(g)$name <- LETTERS[1:11]
+data("dbces11")
+g <- dbces11
 
 #neighborhood inclusion 
 P <- g %>% neighborhood_inclusion()
@@ -85,26 +83,21 @@ cent_scores <- data.frame(
    eigenvector=round(eigen_centrality(g)$vector,4),
    subgraph=round(subgraph_centrality(g),4))
 
-plot_rank_intervals(P,cent.df = cent_scores)
+plot(rank_intervals(P),cent_scores = cent_scores)
 ```
 
-Notice how all five centrality rank a different vertex as the most central one.  
+Notice how all five indices rank a different vertex as the most central one.  
 \
-In the following subsections the output of the function `exact_rank_probabilities()` 
+In the following subsections the output of the function `exact_rank_prob()` 
 are described which may help to circumvent the potential arbitrariness of index induced rankings.
 But first, let us briefly look at all the return values.
 ```{r calc_probs}
 res <- exact_rank_prob(P)
-str(res)
+res
 ```
 
-The return value `lin.ext` gives the number of possible rankings that are in 
-accordance with the partial ranking `P`. The `names` vector returns the names of nodes if they were
-supplied with the `names` parameter. Otherwise, node ids are returned as a character vector.
-The vector `mse` returns the equivalence classes of `P`. Nodes $u$ and $v$ are equivalent
-if $N(u)\subseteq N[v]$ and $N(v)\subseteq N[u]$ holds. The remaining return values
-are discussed in the following.
-
+The function returns an object of type \emph{netrankr_full} which contains the result of a full probabilistic rank analysis.
+The specific list entries are discussed in the following subsections.
 
 ### Rank Probabilities
 

@@ -2,7 +2,6 @@
 library(igraph)
 library(netrankr)
 library(magrittr)
-library(ggplot2)
 
 ## ----plot,fig.height=5,fig.width=5,fig.align='center'-------------------------
 data("florentine_m")
@@ -53,7 +52,7 @@ plot(d,vertex.label.color="black",
      edge.arrow.size=0.5)
 
 ## ----rk_inter,fig.align='center',fig.width=5,fig.height=5---------------------
-plot_rank_intervals(P)
+plot(rank_intervals(P))
 
 ## ----probs--------------------------------------------------------------------
 res <- exact_rank_prob(P)
@@ -169,7 +168,7 @@ plot(d,layout=cbind(x,y),
      )
 
 ## ----rk_inter_dist,fig.align='center',fig.width=5,fig.height=5----------------
-plot_rank_intervals(D)
+plot(rank_intervals(D))
 
 ## ----dist_probs---------------------------------------------------------------
 res <- exact_rank_prob(D)
@@ -185,22 +184,6 @@ dim(all_ranks)
 dist_cor <- apply(all_ranks,2,
               function(x)cor(V(florentine_m)$wealth,x,method="kendall"))
 c(max_cor = max(dist_cor),mean_cor = mean(dist_cor))
-
-## ----vis_rank_cor,fig.align='center',fig.width=5,fig.height=5,echo=FALSE------
-dist_cor<-
-data.frame(cor = apply(all_ranks,2,
-           function(x)cor(V(florentine_m)$wealth,x,method="kendall")),
-           method = "distance")
-
-ggplot(dist_cor)+
-  geom_boxplot(aes(x=method,y=cor))+
-  theme(text = element_text(family="Times",size=14),
-        panel.border = element_blank(),
-        panel.background = element_blank(),
-        panel.grid = element_blank(),
-        axis.ticks = element_blank())+
-      labs(x="",y="Correlation with wealth")
-
 
 ## ----cor_deg------------------------------------------------------------------
 cor(degree(florentine_m),V(florentine_m)$wealth,method="kendall")

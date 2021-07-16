@@ -1,7 +1,7 @@
 Package: netrankr
 Type: Package
 Title: Analyzing Partial Rankings in Networks
-Version: 0.3.0
+Version: 1.0.0
 Authors@R: c(
     person("David", "Schoch", email = "david.schoch@manchester.ac.uk", role = c("aut", "cre")),
     person("Julian","Müller", email = "julian.mueller@gess.ethz.ch", role = "ctb"))
@@ -23,14 +23,14 @@ Depends: R (>= 3.0.1)
 Imports: igraph (>= 1.0.1), Rcpp (>= 0.12.8)
 LinkingTo: Rcpp,RcppArmadillo
 SystemRequirements: C++11
-RoxygenNote: 7.1.0
-Suggests: knitr, rmarkdown, magrittr, ggplot2, testthat, shiny (>=
-        0.13), miniUI (>= 0.1.1), rstudioapi (>= 0.5)
+RoxygenNote: 7.1.1
+Suggests: knitr, rmarkdown, magrittr, testthat, shiny (>= 0.13), miniUI
+        (>= 0.1.1), rstudioapi (>= 0.5)
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2020-09-09 06:52:32 UTC; david
+Packaged: 2021-07-16 12:35:59 UTC; david
 Author: David Schoch [aut, cre],
   Julian Müller [ctb]
 Maintainer: David Schoch <david.schoch@manchester.ac.uk>
 Repository: CRAN
-Date/Publication: 2020-09-09 07:30:03 UTC
+Date/Publication: 2021-07-16 14:50:02 UTC

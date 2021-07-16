@@ -4,9 +4,9 @@ library(igraph)
 library(magrittr)
 
 ## ----standardcent,eval=F------------------------------------------------------
-#  g <- graph.empty(n=11,directed = FALSE)
-#  g <- add_edges(g,c(1,11,2,4,3,5,3,11,4,8,5,9,5,11,6,7,6,8,
-#                     6,10,6,11,7,9,7,10,7,11,8,9,8,10,9,10))
+#  data("dbces11")
+#  g <- dbces11
+#  
 #  V(g)$name <- 1:11
 #  
 #  #Degree
