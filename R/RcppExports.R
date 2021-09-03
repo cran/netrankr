@@ -33,16 +33,20 @@ listingIdeals <- function(P, nElem, nIdeals) {
     .Call('_netrankr_listingIdeals', PACKAGE = 'netrankr', P, nElem, nIdeals)
 }
 
-mcmc_rank <- function(P, init_rank, rp) {
-    .Call('_netrankr_mcmc_rank', PACKAGE = 'netrankr', P, init_rank, rp)
+mcmc_rank_dense <- function(P, init_rank, rp) {
+    .Call('_netrankr_mcmc_rank_dense', PACKAGE = 'netrankr', P, init_rank, rp)
+}
+
+mcmc_rank_sparse <- function(P, init_rank, rp) {
+    .Call('_netrankr_mcmc_rank_sparse', PACKAGE = 'netrankr', P, init_rank, rp)
 }
 
 nialgo <- function(adjList, deg) {
     .Call('_netrankr_nialgo', PACKAGE = 'netrankr', adjList, deg)
 }
 
-matdom <- function(A, map, benefit) {
-    .Call('_netrankr_matdom', PACKAGE = 'netrankr', A, map, benefit)
+matdom <- function(B, map, benefit) {
+    .Call('_netrankr_matdom', PACKAGE = 'netrankr', B, map, benefit)
 }
 
 preserve <- function(P, s, n) {

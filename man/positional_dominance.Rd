@@ -2,7 +2,7 @@
 % Please edit documentation in R/positional.dominance.R
 \name{positional_dominance}
 \alias{positional_dominance}
-\title{Generalized Dominance in Graphs}
+\title{Generalized Dominance Relations}
 \usage{
 positional_dominance(A, type = "one-mode", map = FALSE, benefit = TRUE)
 }
@@ -20,7 +20,7 @@ or 'two-mode' if \code{A} is a general data matrix.}
 Dominance relations as matrix object. An entry \verb{[u,v]} is \code{1} if u is dominated by v.
 }
 \description{
-generalized dominance relations.
+generalized dominance relations that can be computed on one and two mode networks.
 }
 \details{
 Positional dominance is a generalization of neighborhood-inclusion for
@@ -42,14 +42,13 @@ P <- neighborhood_inclusion(dbces11)
 comparable_pairs(P)
 
 # positional dominance under total heterogeneity
-dist <- indirect_relations(dbces11,type = "dist_sp")
-D <- positional_dominance(dist,map = FALSE,benefit = FALSE) 
-comparable_pairs(D) 
+dist <- indirect_relations(dbces11, type = "dist_sp")
+D <- positional_dominance(dist, map = FALSE, benefit = FALSE)
+comparable_pairs(D)
 
 # positional dominance under total homogeneity
-D_map <- positional_dominance(dist,map = TRUE,benefit = FALSE) 
+D_map <- positional_dominance(dist, map = TRUE, benefit = FALSE)
 comparable_pairs(D_map)
-
 }
 \references{
 Brandes, U., 2016. Network positions. \emph{Methodological Innovations} 9,

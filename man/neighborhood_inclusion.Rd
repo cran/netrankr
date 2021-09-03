@@ -4,10 +4,12 @@
 \alias{neighborhood_inclusion}
 \title{Neighborhood-inclusion preorder}
 \usage{
-neighborhood_inclusion(g)
+neighborhood_inclusion(g, sparse = FALSE)
 }
 \arguments{
 \item{g}{An igraph object}
+
+\item{sparse}{Logical scalar, whether to create a sparse matrix}
 }
 \value{
 The neighborhood-inclusion preorder of \code{g} as matrix object. \code{P[u,v]=1} if \eqn{N(u)\subseteq N[v]}
@@ -28,12 +30,12 @@ centrality, total communicability,...).
 \examples{
 library(igraph)
 # the neighborhood inclusion preorder of a star graph is complete
-g <- graph.star(5,'undirected')
+g <- graph.star(5, "undirected")
 P <- neighborhood_inclusion(g)
 comparable_pairs(P)
 
 # the same holds for threshold graphs
-tg <- threshold_graph(50,0.1)
+tg <- threshold_graph(50, 0.1)
 P <- neighborhood_inclusion(tg)
 comparable_pairs(P)
 
@@ -41,9 +43,9 @@ comparable_pairs(P)
 data("dbces11")
 P <- neighborhood_inclusion(dbces11)
 
-is_preserved(P,degree(dbces11))
-is_preserved(P,closeness(dbces11))
-is_preserved(P,betweenness(dbces11))
+is_preserved(P, degree(dbces11))
+is_preserved(P, closeness(dbces11))
+is_preserved(P, betweenness(dbces11))
 }
 \references{
 Schoch, D. and Brandes, U., 2016. Re-conceptualizing centrality in social networks.

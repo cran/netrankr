@@ -186,7 +186,7 @@ N(u)\subseteq N[v] \implies c(u)\leq c(v),
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(Nu<span class="sc">%in%</span>Nv)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Checking all pairs of nodes can efficiently be done with the <code>neighborhood_inclusion()</code> function from the <code>netrankr</code> package.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">neighborhood_inclusion</span>(g)</span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">neighborhood_inclusion</span>(g, <span class="at">sparse =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>P</span></code></pre></div>
 <pre><code>##   A B C D E F G H I J K
 ## A 0 0 1 0 1 1 1 0 0 0 1

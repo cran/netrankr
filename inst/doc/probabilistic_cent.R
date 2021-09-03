@@ -1,6 +1,9 @@
 ## ----global_options, include=FALSE--------------------------------------------
 knitr::opts_chunk$set(fig.width=5,fig.align = 'center')
 
+## ----setup-blind,include=FALSE------------------------------------------------
+library(Matrix)
+
 ## ----setup, warning=FALSE,message=FALSE---------------------------------------
 library(netrankr)
 library(igraph)
@@ -11,7 +14,7 @@ data("dbces11")
 g <- dbces11
 
 #neighborhood inclusion 
-P <- g %>% neighborhood_inclusion()
+P <- g %>% neighborhood_inclusion(sparse = FALSE)
 
 #without %>% operator:
 # P <- neighborhood_inclusion(g)

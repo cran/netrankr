@@ -1,3 +1,6 @@
+## ----setup-blind,include=FALSE------------------------------------------------
+library(Matrix)
+
 ## ----setup, warning=FALSE,message=FALSE---------------------------------------
 library(netrankr)
 library(igraph)
@@ -25,7 +28,7 @@ Nv
 all(Nu%in%Nv)
 
 ## ----neighborhood_inclusion---------------------------------------------------
-P <- neighborhood_inclusion(g)
+P <- neighborhood_inclusion(g, sparse = FALSE)
 P
 
 ## ----dominance_graph,fig.align='center',fig.width=5---------------------------

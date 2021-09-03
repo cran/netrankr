@@ -1,3 +1,6 @@
+## ----setup-blind,include=FALSE------------------------------------------------
+library(Matrix)
+
 ## ----setup, warning=FALSE,message=FALSE---------------------------------------
 library(netrankr)
 library(igraph)

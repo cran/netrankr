@@ -1,6 +1,9 @@
 ## ----global_options, include=FALSE--------------------------------------------
 knitr::opts_chunk$set(fig.width=5,fig.align = 'center')
 
+## ----setup-blind,include=FALSE------------------------------------------------
+library(Matrix)
+
 ## ----setup, warning=FALSE,message=FALSE---------------------------------------
 library(netrankr)
 library(igraph)
@@ -11,10 +14,10 @@ data("dbces11")
 g <- dbces11
 
 #neighborhood inclusion 
-P <- g %>% neighborhood_inclusion()
+P <- g %>% neighborhood_inclusion(sparse = FALSE)
 
 #without %>% operator:
-# P <- neighborhood_inclusion(g)
+# P <- neighborhood_inclusion(g, sparse = FALSE)
 
 rank_intervals(P)
 
@@ -34,10 +37,10 @@ set.seed(123)
 tg <- threshold_graph(20,0.2)
 
 #neighborhood inclusion 
-P <- tg %>% neighborhood_inclusion()
+P <- tg %>% neighborhood_inclusion(sparse = FALSE)
 
 #without %>% operator:
-# P <- neighborhood_inclusion(tg)
+# P <- neighborhood_inclusion(tg,sparse = FALSE)
 plot(rank_intervals(P))
 
 ## ----tg_ri_cent,out-----------------------------------------------------------
