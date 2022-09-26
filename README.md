@@ -7,6 +7,7 @@ Badge](http://www.r-pkg.org/badges/version/netrankr)](https://cran.r-project.org
 [![CRAN
 Downloads](http://cranlogs.r-pkg.org/badges/netrankr)](https://CRAN.R-project.org/package=netrankr)
 [![codecov](https://codecov.io/gh/schochastics/netrankr/branch/master/graph/badge.svg)](https://app.codecov.io/gh/schochastics/netrankr)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.04563/status.svg)](https://doi.org/10.21105/joss.04563)
 
 # Overview
 
@@ -126,8 +127,8 @@ P
 ```
 
 [Schoch & Brandes (2016)](https://doi.org/10.1017/S0956792516000401)
-showed that *N*(*u*) ⊆ *N*\[*v*\] (i.e. `P[u,v]=1`) implies
-*c*(*u*) ≤ *c*(*v*) for centrality indices *c*, which are defined via
+showed that $N(u) \subseteq N[v]$ (i.e. `P[u,v]=1`) implies
+$c(u) \leq c(v)$ for centrality indices $c$, which are defined via
 specific path algebras. These include many of the well-known measures
 like closeness (and variants), betweenness (and variants) as well as
 many walk-based indices (eigenvector and subgraph centrality, total
@@ -288,3 +289,10 @@ package, consult the following literature:
 > Brandes, Ulrik. (2016). Network Positions. *Methodological
 > Innovations*, **9**, 2059799116630650.
 > ([link](https://dx.doi.org/10.1177/2059799116630650))
+
+## Code of Conduct
+
+Please note that the netrankr project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
