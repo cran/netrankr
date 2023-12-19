@@ -1,7 +1,7 @@
-8e23e19c3389ed874e25c0347062630b *DESCRIPTION
+55b45a31338ae1a30b84195f9b49752c *DESCRIPTION
 968b19190bade257361a9dceef62166f *LICENSE
 f43b7d059ae23a8599a86cf2726066bd *NAMESPACE
-42f66ad554a0edaa915c134d17d4d02e *NEWS.md
+c018a84c054366d76a1d3ebee222cb34 *NEWS.md
 2ddfae5f417858d93e94d294225caedd *R/RcppExports.R
 b652ee72d424c2ddd48e1f3a2dd3d239 *R/aggregate.index.R
 8d4c6e58d5fa0d949491f5b45d3b43bb *R/approximate.ranks.R
@@ -28,7 +28,7 @@ a86dbb7383d9a73e8a77accd3c3aa21d *R/transform.relations.R
 eb78e0c205e83ed709e72dde2ddb6d96 *R/transitive.reduction.R
 f3ae038fadfa2f68d1e34babd9d2cb74 *R/utils.R
 6753ef8ad3197c91cdf3e4e498db0dc7 *R/zzz.R
-644edc6ba89139b61625a4b5df4de1df *README.md
+eca8888fa30bd658af63bb45e1075dea *README.md
 b7b23f3b28d1a2db958b58e02f79e758 *build/vignette.rds
 8ea4648272a72b1dca2f2e1daa25a708 *data/dbces11.rda
 09b5245482fd27aa04c9dcfc66b20f79 *data/florentine_m.rda
@@ -117,7 +117,7 @@ c74897b9a0b5f09210d2192a0be9da88 *src/transreduct.cpp
 14c7dcd9a68ed7a7298c7dbc095d7689 *src/treeOfIdeals.cpp
 12489e555549621d7769fffe2ff07043 *tests/testthat.R
 192fee75e86bd07bbf6e0318c861d975 *tests/testthat/test-comparable.pairs.R
-66251d775b08f3dcd95b64f57898a6d0 *tests/testthat/test-hyperbolic.index.R
+b1b9484a349fd45fb1ffbb3326c11d7b *tests/testthat/test-hyperbolic.index.R
 6de3cb2a763f50c0dc93211ce7437b19 *tests/testthat/test_approximations.R
 d8c33b8db9e2de0e1a7d51fd64e43d51 *tests/testthat/test_dominance.R
 c21907092dd216d731889d95ee661216 *tests/testthat/test_exact_rank_prob.R
