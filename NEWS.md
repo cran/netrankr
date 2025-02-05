@@ -1,3 +1,8 @@
+# netrankr 1.2.4
+
+* added functions from archived NetSwan package
+* removed deprecated igraph calls
+
 # netrankr 1.2.3
 
 * removed test causing issues on some platforms
