@@ -10,7 +10,7 @@ set.seed(1886) #for reproducibility
  g1 <- threshold_graph(500,0.4)
  g2 <- threshold_graph(500,0.05)
  
- c(round(graph.density(g1),2), round(graph.density(g2),2))
+ c(round(edge_density(g1),2), round(edge_density(g2),2))
 
 ## ----tg_example,fig.show='hold'-----------------------------------------------
 star <- threshold_graph(6,0) 

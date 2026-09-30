@@ -1,3 +1,91 @@
+# netrankr 2.0.0
+
+This release fixes a large number of bugs found in a full code review. Several of them change
+numerical results for code that ran without errors before, hence the major version.
+
+## Breaking changes
+
+These change results **without an error**. Please re-check analyses that use them.
+
+* `indirect_relations()` ignores an edge attribute `weight` for all types except `"weights"` and warns
+  when it does so. Previously `"dist_sp"`, `"dist_resist"` and `"dist_lf"` used weights silently, while all
+  other types ignored them (and with igraph >= 3.0 the adjacency-based types would have picked them up too,
+  giving meaningless values for `"depend_curflow"`). For weighted shortest path distances use
+  `igraph::distances(g)` directly, for the weighted adjacency matrix `type = "weights"`.
+* `indirect_relations(type = "depend_rspn")` counted every edge twice and omitted the 1/2 net flow factor.
+  Values are now 1/4 of the previous ones and, as documented, converge to `"depend_curflow"` for
+  `rspxparam -> 0`. Rankings are unaffected. Multiply by 4 to obtain the old values.
+* The entries of `indirect_relations(type = "depend_rsps")` now match the documented definition
+  (expected number of visits on absorbing randomized shortest paths). Their row sums, the RSP
+  betweenness, and hence rankings are unchanged. The old entries were wrong and cannot be restored.
+* `walks_uptok()` includes the `j = 0` (identity) term, as documented. Use
+  `FUN = function(x, ...) walks_uptok(x, ...) - 1` for the old behaviour.
+* `majorization_gap(norm = TRUE)` on disconnected graphs divides the sum of the gaps of all components by
+  the total number of edges, so the value stays in [0, 1]. Previously the normalised gaps of the components
+  were added up.
+* For partial rankings with structurally equivalent nodes, `exact_rank_prob()` and `mcmc_rank_prob()`
+  compute the expected ranks exactly (equivalent nodes are tied at the highest rank of their class, as for
+  linear orders). Previously a heuristic was used.
+* `mcmc_rank_prob()` was biased (rejected moves were not counted as samples), so its estimates change.
+
+Other changes that may require changes to code:
+
+* All functions taking a partial ranking `P` share one input validation: non-square input and `NA` are
+  errors, and a non-zero diagonal is set to 0 with a warning (previously crashes, `NA`s or silently wrong
+  results).
+* `indirect_relations()` errors for relations that are only defined on connected graphs
+  (`"dist_resist"`, `"depend_curflow"`, `"dist_rwalk"`, `"depend_exp"`, `"depend_rsps"`, `"depend_rspn"`,
+  and `"depend_netflow"` with `netflowmode = "frac"`) instead of failing in LAPACK or returning `NaN`s.
+* `compare_ranks()` and `is_preserved()` error on `NA` (`compare_ranks()` counted such pairs as ties).
+* `neighborhood_inclusion()` simplifies graphs with loops or multiple edges with a warning (these gave a
+  wrong preorder).
+* `hyperbolic_index()` and `spectral_gap()` reject directed graphs.
+* Removed the unexported, deprecated `plot_rank_intervals()`. Use `plot(rank_intervals(P))`.
+* Requires R >= 3.5.0 and igraph >= 2.1.0.
+
+## Bug fixes
+
+* `indirect_relations(type = "depend_sp")` overflowed on graphs with many shortest paths.
+* `positional_dominance(type = "two-mode")` failed for matrices with column names and ignored `benefit`
+  and `map`; with `map = FALSE` non-square one-mode input read out of bounds.
+* The random failure scenario of `swan_combinatory()` only removed `k` nodes (the number of repetitions)
+  instead of all nodes, and failed for `k > n`.
+* `majorization_gap()` recycled vectors for disconnected graphs.
+* `transitive_reduction()` returned an empty matrix for reflexive input.
+* `compare_ranks()` overflowed for more than 65536 elements.
+* `mcmc_rank_prob()` evaluated the default `rp` after collapsing structurally equivalent nodes and
+  silently did nothing for `rp` beyond the integer range.
+* `indirect_relations(type = "depend_exp")` ignored edges with multiplicity > 1.
+* `hyperbolic_index()` returned `NaN` for isolated nodes, `spectral_gap()` complex numbers for directed
+  graphs.
+* `index_builder()`: fixed the generated code for `"dist_walk"` (used the log forest parameter) and
+  without pipes (ignored the network name), the alpha sliders (duplicated input ids) and presets resetting
+  the transformation.
+* `aggregate_positions(type = "self")` failed on `Matrix` objects.
+* Sparse (including pattern) and dense `Matrix` input failed in `approx_rank_expected()`,
+  `approx_rank_relative()`, `mcmc_rank_prob()` and `positional_dominance()`.
+* Plot methods did not restore `par()` on error and failed for a single index or more than 15 indices.
+
+## Improvements
+
+* Much faster: `"depend_sp"` (2000 nodes: 128s -> 0.8s), `"dist_rwalk"` (300 nodes: 3.2s -> 0.01s),
+  `"depend_rspn"` (~3x, far less memory), `mcmc_rank_prob()` (O(1) instead of O(n^2) per step),
+  `neighborhood_inclusion()` (2-4x), `"depend_netflow"` (half the maximum flows), `swan_combinatory()` and
+  `swan_connectivity()` (components instead of all shortest paths), vectorised `"loof1"`/`"loof2"`.
+* Informative errors for invalid `type`/`method` arguments and input of `threshold_graph()`,
+  `spectral_gap()`, `swan_*()`.
+* `get_rankings()` returns the single ranking for linear orders.
+* `print.netrankr_interval()` returns its input invisibly.
+* `index_builder()` checks for all required packages.
+* Documented the normalisation of `"depend_exp"`, the behaviour of `swan_efficiency()` on disconnected
+  graphs and the handling of edge weights.
+
+## Housekeeping
+
+* Tests use testthat 3rd edition; many new regression tests.
+* Replaced deprecated igraph calls; no use of the `attr` argument deprecated in igraph 3.0.
+* Native routines are registered; removed unused OpenMP flags.
+
 # netrankr 1.2.4
 
 * added functions from archived NetSwan package
